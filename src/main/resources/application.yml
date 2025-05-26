@@ -1,0 +1,147 @@
+# Browser Use 4J 应用配置
+
+# 应用基本信息
+app:
+  name: Browser Use 4J
+  version: 1.0.0-SNAPSHOT
+  description: 基于Java的浏览器自动化项目
+
+# 浏览器配置
+browser:
+  # 默认浏览器类型 (chrome, firefox, edge, safari)
+  default-type: chrome
+  
+  # 浏览器选项
+  options:
+    # 是否启用无头模式
+    headless: false
+    # 窗口大小
+    window-size: "1920,1080"
+    # 是否禁用图片加载
+    disable-images: false
+    # 是否禁用JavaScript
+    disable-javascript: false
+    # 用户代理
+    user-agent: ""
+    # 代理设置
+    proxy:
+      enabled: false
+      host: ""
+      port: 0
+      username: ""
+      password: ""
+  
+  # 超时设置 (秒)
+  timeouts:
+    # 页面加载超时
+    page-load: 30
+    # 元素查找超时
+    element-wait: 10
+    # 脚本执行超时
+    script: 30
+    # 隐式等待
+    implicit-wait: 5
+
+# WebDriver配置
+webdriver:
+  # 是否自动管理驱动程序
+  auto-manage: true
+  # 驱动程序路径 (如果不使用自动管理)
+  driver-path: ""
+  # 驱动程序版本
+  driver-version: ""
+
+# 日志配置
+logging:
+  level:
+    com.browseruse4j: DEBUG
+    org.seleniumhq.selenium: INFO
+    io.github.bonigarcia: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/browser-use-4j.log
+    max-size: 10MB
+    max-history: 30
+
+# 截图配置
+screenshot:
+  # 是否启用自动截图
+  auto-capture: true
+  # 截图保存路径
+  save-path: "screenshots"
+  # 截图格式 (png, jpg)
+  format: png
+  # 失败时是否截图
+  on-failure: true
+
+# 测试配置
+test:
+  # 测试数据路径
+  data-path: "src/test/resources/testdata"
+  # 测试报告路径
+  report-path: "target/test-reports"
+  # 是否并行执行测试
+  parallel-execution: false
+  # 并行线程数
+  thread-count: 1
+
+# 性能配置
+performance:
+  # 是否启用性能监控
+  monitoring: false
+  # 性能报告路径
+  report-path: "target/performance-reports"
+
+# 环境配置
+environment:
+  # 当前环境 (dev, test, staging, prod)
+  active: dev
+  # 基础URL
+  base-url: "https://example.com"
+  # API基础URL
+  api-base-url: "https://api.example.com"
+
+# 开发环境特定配置
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+browser:
+  options:
+    headless: false
+logging:
+  level:
+    com.browseruse4j: DEBUG
+
+# 测试环境特定配置
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+browser:
+  options:
+    headless: true
+test:
+  parallel-execution: true
+  thread-count: 2
+
+# 生产环境特定配置
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+browser:
+  options:
+    headless: true
+logging:
+  level:
+    com.browseruse4j: INFO
+    root: WARN 
